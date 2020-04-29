@@ -13,6 +13,8 @@ using ff14bot.AClasses;
 using ff14bot.Behavior;
 using ff14bot.Helpers;
 using ff14bot.Managers;
+using ff14bot.Navigation;
+using ff14bot.Pathing.Service_Navigation;
 using ff14bot.RemoteWindows;
 using TreeSharp;
 using Action = TreeSharp.Action;
@@ -73,6 +75,14 @@ namespace Assimilator
             Logger.Verbose("Parsing Settings");
             SanityCheck();
             Logger.Verbose("Commencing Assimilation");
+            Poi.Clear("Fresh Start");
+            Poi.Current = null; //temp fix (??? Stolen from zzi)
+
+            Navigator.NavigationProvider = new ServiceNavigationProvider();
+            Navigator.PlayerMover = new SlideMover();
+
+            TreeHooks.Instance.ClearAll();
+
         }
 
         private void SanityCheck()
@@ -99,4 +109,10 @@ namespace Assimilator
         public Settings() : base(Path.Combine(CharacterSettingsDirectory, "Assimilator.json")) { }
 
     }
+
+    //var newList = JsonConvert.DeserializeObject<List<GatheringNodeData>>(File.ReadAllText(Path.Combine("H:\\", $"TimedNodes.json")));
+    //    foreach (var nodeData in newList)
+    //    {
+    //        Log($"\n{nodeData}");
+    //     }
 }

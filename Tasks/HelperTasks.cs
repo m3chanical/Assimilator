@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Assimilator.GUI;
 using Assimilator.Helpers;
 using Buddy.Coroutines;
 using ff14bot;
@@ -17,13 +18,12 @@ namespace Assimilator.Tasks
 {
     class HelperTasks
     {
-        internal static uint Meal;
+        internal static uint Meal = 0;
 
         public static async Task<bool> EatFood()
         {
-            //change this to composite
 
-            if (GatheringManager.WindowOpen)
+            if (GatheringManager.WindowOpen || Meal == 0)
             {
                 return false;
             }

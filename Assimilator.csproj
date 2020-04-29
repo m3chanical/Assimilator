@@ -99,4 +99,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>call C:\buildtools\botbase.bat 
+git</PostBuildEvent>
+  </PropertyGroup>
 </Project>

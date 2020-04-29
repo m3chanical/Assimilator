@@ -24,8 +24,8 @@ namespace Assimilator.Helpers
     internal static class LogColors
     {
         internal static Color Error => Colors.OrangeRed;
-        internal static Color Info => Colors.LightGreen;
-        internal static Color Verbose => Colors.Green;
+        internal static Color Info => Colors.MediumOrchid;
+        internal static Color Verbose => Colors.BlueViolet;
         internal static Color Warn => Colors.Goldenrod;
     }
     public class Logger
@@ -36,7 +36,12 @@ namespace Assimilator.Helpers
         private static void Log(Color c, string message, object[] args) 
         {
             rlogging.Write(c, Prefix + string.Format(message, args));
-            LogList.Add("[" + DateTime.Now.ToString() + "]" + " " + Prefix + string.Format(message, args));
+
+            var logStr = "[" + DateTime.Now + "]" + " " + Prefix + string.Format(message, args);
+            if(LogList.Count >= 50) 
+                LogList.RemoveAt(0);
+            if(!LogList.Contains(logStr))
+                LogList.Add(logStr);
         }
 
         [StringFormatMethod("format")]
@@ -52,6 +57,11 @@ namespace Assimilator.Helpers
         public static void Verbose(string message, params object[] args) 
         {
             Log(LogColors.Verbose, message, args);
+        }
+
+        public static void Warn(string message, params object[] args)
+        {
+            Log(LogColors.Warn, message, args);
         }
 
     }

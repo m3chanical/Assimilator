@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Assimilator.Helpers;
 using ff14bot.Managers;
+using QuickGraph;
 
 namespace Assimilator.GUI
 {
@@ -23,10 +24,9 @@ namespace Assimilator.GUI
 
         private void SettingsWindow_Load(object sender, EventArgs e)
         {
-            foreach (string log in Logger.LogList)
+            foreach (string log in Logger.LogList.Take(50))
             {
                 this.logList.Items.Add(log);
-                
             }
         }
 
@@ -45,24 +45,24 @@ namespace Assimilator.GUI
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Tasks.HelperTasks.Meal = (uint) MealComboBox.SelectedValue;
+            Tasks.HelperTasks.Meal = MealComboBox.SelectedIndex == -1 ? 0 : (uint) MealComboBox.SelectedValue;
         }
 
         private void TabControlSettings_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Logger.Info("TabControl SelectedIndexChanged Event.");
+            //Logger.Info("TabControl SelectedIndexChanged Event.");
 
             switch (TabControlSettings.SelectedIndex)
             {
                 case 0: // general page
-                    Logger.Info("general tab selected");
+                    //Logger.Info("general tab selected");
                     break;
                 case 1: // gathering page
-                    Logger.Info("gathering tab selected");
+                    //Logger.Info("gathering tab selected");
                     break;
                 case 2: // log page
                     this.logList.Items.Clear();
-                    foreach (string log in Logger.LogList) {
+                    foreach (string log in Logger.LogList.Take(50).ToList()) {
                         this.logList.Items.Add(log);
                     }
                     break; 

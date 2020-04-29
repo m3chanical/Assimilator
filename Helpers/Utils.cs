@@ -11,7 +11,7 @@ namespace Assimilator
     public static class Utils
     {
         // the below is obtained from Athlon's RBTrust addon
-        private static bool IsFoodItem(this BagSlot slot) => (slot.Item.EquipmentCatagory == ItemUiCategory.Meal || slot.Item.EquipmentCatagory == ItemUiCategory.Ingredient);
+        private static bool IsFoodItem(this BagSlot slot) => (slot.Item.EquipmentCatagory == ItemUiCategory.Meal);
         public static IEnumerable<BagSlot> GetFoodItems(this IEnumerable<BagSlot> bags) => bags.Where(s => s.IsFoodItem());
         public static bool ContainsFoodItem(this IEnumerable<BagSlot> bags, uint id) => bags.Select(s => s.TrueItemId).Contains(id);
         public static BagSlot GetFoodItem(this IEnumerable<BagSlot> bags, uint id) => bags.First(s => s.TrueItemId == id);
