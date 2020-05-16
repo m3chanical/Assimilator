@@ -19,11 +19,12 @@ namespace Assimilator.Tasks
     class HelperTasks
     {
         internal static uint Meal = 0;
+        internal static bool ShouldEat = false;
 
         public static async Task<bool> EatFood()
         {
 
-            if (GatheringManager.WindowOpen || Meal == 0)
+            if (GatheringManager.WindowOpen || Meal == 0 || !ShouldEat)
             {
                 return false;
             }

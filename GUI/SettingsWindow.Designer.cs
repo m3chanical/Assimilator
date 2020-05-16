@@ -30,6 +30,7 @@
             this.generalTab = new System.Windows.Forms.TabPage();
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.shouldEat = new System.Windows.Forms.CheckBox();
             this.MealComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.botanistGearset = new System.Windows.Forms.NumericUpDown();
@@ -42,13 +43,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.level = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.item = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.job = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.hq = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.timedNodeDataGrid = new System.Windows.Forms.DataGridView();
             this.logTab = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.logList = new System.Windows.Forms.ListBox();
@@ -62,7 +57,7 @@
             this.gatheringTab.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timedNodeDataGrid)).BeginInit();
             this.logTab.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
@@ -104,13 +99,25 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.shouldEat);
             this.groupBox2.Controls.Add(this.MealComboBox);
             this.groupBox2.Location = new System.Drawing.Point(131, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(135, 65);
+            this.groupBox2.Size = new System.Drawing.Size(172, 78);
             this.groupBox2.TabIndex = 5;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Food";
+            // 
+            // shouldEat
+            // 
+            this.shouldEat.AutoSize = true;
+            this.shouldEat.Location = new System.Drawing.Point(6, 52);
+            this.shouldEat.Name = "shouldEat";
+            this.shouldEat.Size = new System.Drawing.Size(42, 17);
+            this.shouldEat.TabIndex = 7;
+            this.shouldEat.Text = "Eat";
+            this.shouldEat.UseVisualStyleBackColor = true;
+            this.shouldEat.CheckedChanged += new System.EventHandler(this.shouldEat_CheckedChanged);
             // 
             // MealComboBox
             // 
@@ -172,7 +179,7 @@
             // 
             this.gatheringTab.Controls.Add(this.groupBox6);
             this.gatheringTab.Controls.Add(this.groupBox5);
-            this.gatheringTab.Controls.Add(this.dataGridView1);
+            this.gatheringTab.Controls.Add(this.timedNodeDataGrid);
             this.gatheringTab.Location = new System.Drawing.Point(4, 22);
             this.gatheringTab.Name = "gatheringTab";
             this.gatheringTab.Padding = new System.Windows.Forms.Padding(3);
@@ -232,55 +239,15 @@
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
-            // dataGridView1
+            // timedNodeDataGrid
             // 
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.AllowUserToOrderColumns = true;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.level,
-            this.item,
-            this.job,
-            this.time,
-            this.amount,
-            this.hq});
-            this.dataGridView1.Location = new System.Drawing.Point(3, 42);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(552, 379);
-            this.dataGridView1.TabIndex = 2;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
-            // 
-            // level
-            // 
-            this.level.HeaderText = "Level";
-            this.level.Name = "level";
-            // 
-            // item
-            // 
-            this.item.HeaderText = "Item";
-            this.item.Name = "item";
-            // 
-            // job
-            // 
-            this.job.HeaderText = "Job";
-            this.job.Name = "job";
-            // 
-            // time
-            // 
-            this.time.HeaderText = "Time";
-            this.time.Name = "time";
-            // 
-            // amount
-            // 
-            this.amount.HeaderText = "Amount";
-            this.amount.Name = "amount";
-            this.amount.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.amount.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // hq
-            // 
-            this.hq.HeaderText = "HQ";
-            this.hq.Name = "hq";
+            this.timedNodeDataGrid.AllowUserToDeleteRows = false;
+            this.timedNodeDataGrid.AllowUserToOrderColumns = true;
+            this.timedNodeDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.timedNodeDataGrid.Location = new System.Drawing.Point(3, 42);
+            this.timedNodeDataGrid.Name = "timedNodeDataGrid";
+            this.timedNodeDataGrid.Size = new System.Drawing.Size(552, 379);
+            this.timedNodeDataGrid.TabIndex = 2;
             // 
             // logTab
             // 
@@ -337,6 +304,7 @@
             this.TabControlSettings.ResumeLayout(false);
             this.generalTab.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.botanistGearset)).EndInit();
@@ -344,7 +312,7 @@
             this.gatheringTab.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.timedNodeDataGrid)).EndInit();
             this.logTab.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -368,17 +336,12 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.ListBox logList;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView timedNodeDataGrid;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button addButton;
-        private System.Windows.Forms.DataGridViewTextBoxColumn level;
-        private System.Windows.Forms.DataGridViewTextBoxColumn item;
-        private System.Windows.Forms.DataGridViewTextBoxColumn job;
-        private System.Windows.Forms.DataGridViewTextBoxColumn time;
-        private System.Windows.Forms.DataGridViewTextBoxColumn amount;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn hq;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.CheckBox shouldEat;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -8,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Assimilator.Helpers;
+using Assimilator.Models;
+using Assimilator.Tasks;
 using ff14bot.Managers;
 using QuickGraph;
 
@@ -16,10 +19,15 @@ namespace Assimilator.GUI
     public partial class SettingsWindow : Form
     {
         private Dictionary<uint, string> meals;
+
+        internal TimedNodesDataBase _database { get; set; }
+
         public SettingsWindow() {
             meals = new Dictionary<uint, string>();
             InitializeComponent();
             UpdateFood();
+            Tasks.HelperTasks.ShouldEat = shouldEat.Checked;
+            if (Assimilator._database != null) timedNodeDataGrid.DataSource = Assimilator._database.TimedNodes;
         }
 
         private void SettingsWindow_Load(object sender, EventArgs e)
@@ -31,10 +39,6 @@ namespace Assimilator.GUI
         }
 
         private void gatheringTab_Click(object sender, EventArgs e) {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) {
 
         }
 
@@ -95,5 +99,11 @@ namespace Assimilator.GUI
         {
             // TODO: move log update stuff
         }
+
+        private void shouldEat_CheckedChanged(object sender, EventArgs e)
+        {
+            HelperTasks.ShouldEat = shouldEat.Checked;
+        }
+
     }
 }

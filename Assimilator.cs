@@ -1,24 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using Assimilator.GUI;
+﻿using Assimilator.GUI;
 using Assimilator.Helpers;
+using Assimilator.Models;
 using ff14bot.AClasses;
 using ff14bot.Behavior;
 using ff14bot.Helpers;
-using ff14bot.Managers;
 using ff14bot.Navigation;
 using ff14bot.Pathing.Service_Navigation;
-using ff14bot.RemoteWindows;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+using ff14bot.Managers;
 using TreeSharp;
-using Action = TreeSharp.Action;
-using Path = System.IO.Path;
 
 namespace Assimilator
 {
@@ -33,13 +25,16 @@ namespace Assimilator
         public override bool IsAutonomous => true;
         public override bool WantButton => true;
 
-
         private SettingsWindow _settings;
-        private readonly Version _v = new Version(0,0,1);
+        private readonly Version _v = new Version(0,0,2);
+
+        public static TimedNodesDataBase _database; 
 
         public Assimilator()
         {
+            _database = JsonConvert.DeserializeObject<TimedNodesDataBase>(File.ReadAllText(@"BotBases\Assimilator\TimedNodes.json"));
             Logger.Info("Assimilator Init Complete");
+
         }
 
         public override void OnButtonPress()
@@ -48,6 +43,7 @@ namespace Assimilator
             {
                 _settings = new SettingsWindow {
                     Text = "Garlean Resource Assimilator v" + _v,
+                    //_database = _database,
                 };
                 _settings.Closed += (o, e) => { _settings = null; };
             }
@@ -82,7 +78,6 @@ namespace Assimilator
             Navigator.PlayerMover = new SlideMover();
 
             TreeHooks.Instance.ClearAll();
-
         }
 
         private void SanityCheck()
@@ -100,19 +95,4 @@ namespace Assimilator
                 _root = new Tasks.MainTasks().MainTask
             );
     }
-
-    public class Settings : JsonSettings
-    {
-        private static Settings _instance;
-        public static Settings Instance => _instance ?? (_instance = new Settings());
-
-        public Settings() : base(Path.Combine(CharacterSettingsDirectory, "Assimilator.json")) { }
-
-    }
-
-    //var newList = JsonConvert.DeserializeObject<List<GatheringNodeData>>(File.ReadAllText(Path.Combine("H:\\", $"TimedNodes.json")));
-    //    foreach (var nodeData in newList)
-    //    {
-    //        Log($"\n{nodeData}");
-    //     }
 }
