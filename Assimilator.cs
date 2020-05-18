@@ -8,8 +8,11 @@ using ff14bot.Navigation;
 using ff14bot.Pathing.Service_Navigation;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ff14bot.Managers;
+using ff14bot.NeoProfiles;
 using TreeSharp;
 
 namespace Assimilator
@@ -28,11 +31,16 @@ namespace Assimilator
         private SettingsWindow _settings;
         private readonly Version _v = new Version(0,0,2);
 
-        public static TimedNodesDataBase _database; 
+        public static TimedNodesDataBase _database;
+        public static List<TimedNode> _nodestomine = new List<TimedNode>();
 
         public Assimilator()
         {
             _database = JsonConvert.DeserializeObject<TimedNodesDataBase>(File.ReadAllText(@"BotBases\Assimilator\TimedNodes.json"));
+            foreach (var node in _database.TimedNodes)
+            {
+                node.ItemName = DataManager.GetItem(node.ItemId).CurrentLocaleName;
+            }
             Logger.Info("Assimilator Init Complete");
 
         }
@@ -68,8 +76,6 @@ namespace Assimilator
 
         public override void Start()
         {   
-            Logger.Verbose("Parsing Settings");
-            SanityCheck();
             Logger.Verbose("Commencing Assimilation");
             Poi.Clear("Fresh Start");
             Poi.Current = null; //temp fix (??? Stolen from zzi)
@@ -77,13 +83,13 @@ namespace Assimilator
             Navigator.NavigationProvider = new ServiceNavigationProvider();
             Navigator.PlayerMover = new SlideMover();
 
+            _nodestomine.Add(_database.TimedNodes.Find(n => n.ItemId == 7610));
+            Logger.Verbose(
+                $"Looking for a node between {Assimilator._nodestomine.First().TimeSlots.First().Key} and {Assimilator._nodestomine.First().TimeSlots.First().Value}.");
+            Logger.Verbose($"Is time between {Assimilator._nodestomine.First().TimeSlots.First().Key} and {Assimilator._nodestomine.First().TimeSlots.First().Value}: {ConditionParser.IsTimeBetween(Assimilator._nodestomine.First().TimeSlots.First().Key, Assimilator._nodestomine.First().TimeSlots.First().Value) || ConditionParser.IsTimeBetween(Assimilator._nodestomine.First().TimeSlots.Last().Key, Assimilator._nodestomine.First().TimeSlots.Last().Value)}");
             TreeHooks.Instance.ClearAll();
         }
 
-        private void SanityCheck()
-        {
-            // check settings to ensure there aren't any conflicts or other weird things
-        }
 
         public Composite GetRoot() 
         {
